@@ -1,0 +1,19 @@
+node_modules/
+.pnp
+.pnp.js
+
+# Environment Variables (Secrets)
+.env
+.env.local
+
+# Database Files
+*.sqlite
+*.sqlite-journal
+
+# Build outputs
+dist/
+build/
+
+# OS Files
+.DS_Store
+Thumbs.db
