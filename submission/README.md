@@ -119,8 +119,8 @@ In the demo, I walk through the application's core features, including:
 *   Player stats and Wallet
 *   Cash Out feature
 *   The Bonus Task: Generating an API Key and placing a bet with a "bot" script.
-
-Changes not included in the video:
+---
+ **Last-minute changes not included in the video:**
 <img width="1153" height="489" alt="image" src="https://github.com/user-attachments/assets/3215e183-0419-44a1-ad50-eae8d9fbf775" />
 
 -new "Flawless" badge for users with over 90% win rate
