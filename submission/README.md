@@ -5,26 +5,14 @@
 
 ---
 
-## 🎥 Video Demo (Required)
-
-**[Click here to watch the Video Demo](https://www.loom.com/share/79ea036202cc4c27b51aa3ac99d2b9d8)**
 
 
 ## Short Description
 
-In this project, I tried focusing on User Experience and implementing key features to make the website user-friendly and accessible for everyone. I added several necessary features such as sorting, search bar, player stats, notification pop-ups, cash out option, while maintaining payout logic and safely substracting and adding balance to users.
+In this project, I prioritized **User Experience and Technical Robustness**, transforming the core requirements into a high-engagement, user-friendly trading platform. Key functional enhancements include an integrated Global Search, advanced market sorting, closing times for each market, and real-time notifications (pop-ups) for immediate user feedback. To drive user engagement, I integrated a tier system where players earn dynamic badges based on their total winnings. I also prioritized user-centric risk management by implementing a **'Cash Out'** mechanism. This acts as a **financial safety net**, allowing players to exercise greater control over their capital by retracting or settling wagers before a market is resolved.
 
-In the demo, I walk through the application's core features, including:
+On the backend, I implemented a custom Pari-mutuel payout engine and a dynamic 'Estimated Payout' calculator to provide users with full transparency before wagering. To ensure financial integrity, all balance operations are handled via atomic database transactions, guaranteeing that fund deductions and winnings are processed with 100% accuracy and safety.
 
-*   Dashboard with Real-Time Polling, Pagination, and Sorting (including the "Closing Soon" feature)
-*   Creating a New Market with a custom End Date and self-resolving feature
-*   Placing a Bet and seeing the "Estimated Payout" and live Chart update
-*   The Admin Panel for resolving and archiving markets
-*   Player stats and Wallet
-*   Cash Out feature
-*   The Bonus Task: Generating an API Key and placing a bet with a "bot" script.
-
----
 
 ## 🚀 How to Run The Project
 
@@ -85,4 +73,23 @@ All critical financial operations, especially placing a bet (handlePlaceBet) and
 To complete the bonus task, I followed the hint to reuse existing endpoints. I updated the auth.middleware on the backend to be more flexible. It can now authenticate a request using either a standard JWT Token (from the frontend login) or a persistent API Key (from a user's profile). This keeps the codebase DRY (Don't Repeat Yourself) and ensures that bots and humans are subject to the same validation rules.
 5. Usage of AI Tools
 As encouraged by the prompt, I leveraged AI tools (VS Code Copilot) as a "pair programmer" to accelerate development. My role was that of the architect and product owner—I made the high-level decisions regarding database schema changes (like adding endDate and role), the payout math, and the overall UI/UX flow, while using the AI to rapidly generate boilerplate code, write Drizzle queries, and build out Shadcn UI components.
+
+
 Thank you for the opportunity to take on this challenge!
+
+
+## 🎥 Video Demo (Required)
+
+**[Click here to watch the Video Demo](https://www.loom.com/share/79ea036202cc4c27b51aa3ac99d2b9d8)**
+
+
+
+In the demo, I walk through the application's core features, including:
+
+*   Dashboard with Real-Time Polling, Pagination, and Sorting (including the "Closing Soon" feature)
+*   Creating a New Market with a custom End Date and self-resolve feature
+*   Placing a Bet and seeing the "Estimated Payout" and live Chart update
+*   The Admin Panel for resolving and archiving markets
+*   Player stats and Wallet
+*   Cash Out feature
+*   The Bonus Task: Generating an API Key and placing a bet with a "bot" script.
