@@ -11,20 +11,20 @@ import {
 } from "./handlers";
 
 export const authRoutes = new Elysia({ prefix: "/api/auth" })
-  .post("/register", handleRegister, {
+  .use(authMiddleware)
+  .post("/register", (context) => handleRegister(context as any), {
     body: t.Object({
       username: t.String(),
       email: t.String(),
       password: t.String(),
     }),
   })
-  .post("/login", handleLogin, {
+  .post("/login", (context) => handleLogin(context as any), {
     body: t.Object({
       email: t.String(),
       password: t.String(),
     }),
   })
-  .use(authMiddleware)
   .guard(
     {
       beforeHandle({ user, set }) {
@@ -36,13 +36,13 @@ export const authRoutes = new Elysia({ prefix: "/api/auth" })
     },
     (app) =>
       app
-        .get("/wallet", handleGetWalletSummary)
-        .post("/wallet/deposit", handleAdminDepositWallet, {
+        .get("/wallet", (context) => handleGetWalletSummary(context as any))
+        .post("/wallet/deposit", (context) => handleAdminDepositWallet(context as any), {
           body: t.Object({
             amount: t.Number(),
           }),
         })
         .get("/api-key", handleGetApiKeyStatus)
-        .post("/api-key", handleGenerateApiKey)
+        .post("/api-key", (context) => handleGenerateApiKey(context as any))
         .delete("/api-key", handleRevokeApiKey),
   );
