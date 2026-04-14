@@ -123,6 +123,8 @@ In the demo, I walk through the application's core features, including:
 Changes not included in the video:
 <img width="1153" height="489" alt="image" src="https://github.com/user-attachments/assets/3215e183-0419-44a1-ad50-eae8d9fbf775" />
 
--Added new "Flawless" badge for users with over 90% win rate
--Added badge description to show when the mouse hovers on badge
--Added username to MyProfile section
+-new "Flawless" badge for users with over 90% win rate
+
+-badge description will show when the mouse hovers over the badge
+
+-added username to MyProfile section
