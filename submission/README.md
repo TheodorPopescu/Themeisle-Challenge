@@ -62,12 +62,15 @@ Email: admin2@test.com
 Password: password123
 ```
 🧠 Architectural & Design Choices
+
 Here is a summary of the key technical decisions I made while building this application:
 
-1. Payout & Odds Calculation: Pari-Mutuel System
+1. ***Payout & Odds Calculation***
+
 I chose a Pari-mutuel (Pool Betting) system, similar to platforms like Polymarket. Instead of the platform acting as a "bookmaker" and taking on financial risk with fixed odds, it simply acts as an escrow agent. When a market is resolved, the funds from the losing pool are distributed proportionally to the winners. This model ensures the platform is always solvent and the odds are dynamically set by the users themselves.
 
-2. UX/UI design:
+2.   ***UX/UI design***
+
 *   **Dark Mode Support:** Full accessibility support with a toggleable Dark Theme for low-light environments.
 *   **Universal Search:** An integrated search bar on the dashboard to quickly find markets by title or keyword.
 *   **"How It Works" (About Page):** A comprehensive onboarding guide to explain Pari-mutuel betting and payouts to new users.
@@ -75,10 +78,12 @@ I chose a Pari-mutuel (Pool Betting) system, similar to platforms like Polymarke
 *   **Wallet:** The Wallet is your personal treasury on the platform. Since this is a simulated market, it manages your virtual credits and provides a transparent look at your financial activity, while allowing the **admin** to add balance to his account.
 *   **Gamification & Badges:** Dynamic player ranking system (Whale, Shark) based on account winnings to drive user engagement and competition.
 
-3. Closing date and automatic market resolving
+3. ***Closing date and automatic market resolving***
+   
 The closing date serves as the official deadline for all participation, marking the exact moment the market stops accepting new wagers and locks its final pool. At this cutoff point, the system will choose a winning outcome based on current odds, using a random number generator. The market will resolve and instantly trigger the payout distribution process without the need for manual intervention, providing users with a fast and entirely automated trading experience.
 
-4. Reusable API (Bonus Task)
+4. ***Reusable API (Bonus Task)***
+
 To complete the bonus task, I followed the hint to reuse existing endpoints. It can now authenticate a request using either a standard JWT Token (from the frontend login) or a persistent API Key (from a user's profile). This keeps the codebase DRY (Don't Repeat Yourself) and ensures that bots and humans are subject to the same validation rules.
 
 ---
@@ -93,13 +98,14 @@ Creating an interface that is both visually professional and inherently user-fri
 3. Database Evolution for the "Cash-Out" Mechanism
 Implementing the "Cash-Out" feature presented a significant architectural challenge. This required altering the database schema to accurately track the full lifecycle of a wager. Beyond simply refunding a balance, I had to ensure that retracted bets were properly transitioned within the database to be reflected in the user's History section. This required a careful update to the betting logic to distinguish between active, resolved, and cashed-out states, providing users with a transparent audit trail of their activity while maintaining 100% data integrity.
 
-
+---
 
 Thank you for the opportunity to take on this challenge!
 
----
 
-## 🎥 Video Demo (Required)
+
+
+# 🎥 Video Demo (Required)
 
 **[Click here to watch the Video Demo](https://www.loom.com/share/79ea036202cc4c27b51aa3ac99d2b9d8)**
 
@@ -107,10 +113,10 @@ Thank you for the opportunity to take on this challenge!
 
 In the demo, I walk through the application's core features, including:
 
-*   Dashboard with Real-Time Polling, Pagination, and Sorting (including the "Closing Soon" feature)
+*   Dashboard with Real-Time Polling, Market Search, and Sorting (including the "Closing Soon" feature)
 *   Creating a New Market with a custom End Date and self-resolve feature
 *   Placing a Bet and seeing the "Estimated Payout" and live Chart update
-*   The Admin Panel for resolving and archiving markets
+*   The Admin Panel for resolving and archiving markets and pop-up notifications
 *   Player stats and Wallet
 *   Cash Out feature
 *   The Bonus Task: Generating an API Key and placing a bet with a "bot" script.
