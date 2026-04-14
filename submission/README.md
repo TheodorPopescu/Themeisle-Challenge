@@ -82,7 +82,7 @@ The closing date serves as the official deadline for all participation, marking 
 To complete the bonus task, I followed the hint to reuse existing endpoints. It can now authenticate a request using either a standard JWT Token (from the frontend login) or a persistent API Key (from a user's profile). This keeps the codebase DRY (Don't Repeat Yourself) and ensures that bots and humans are subject to the same validation rules.
 
 ---
-##Challenges faced during development
+## Challenges faced during development
 
 1. Maintaining Logic Integrity & Preventing Regression
 Maintaining the core logic while scaling the application was a primary technical challenge. I had to implement advanced features without compromising the foundational functionality provided in the initial project structure. By adopting a modular approach, I ensured that new additions, like the Admin resolution controls, remained decoupled from the core betting engine. This allowed for rapid iteration while keeping the application stable and reliable.
@@ -97,6 +97,7 @@ Implementing the "Cash-Out" feature presented a significant architectural challe
 
 Thank you for the opportunity to take on this challenge!
 
+---
 
 ## 🎥 Video Demo (Required)
 
