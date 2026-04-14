@@ -104,7 +104,6 @@ Thank you for the opportunity to take on this challenge!
 
 
 
-
 # 🎥 Video Demo 
 
 **[Click here to watch the Video Demo](https://www.loom.com/share/79ea036202cc4c27b51aa3ac99d2b9d8)**
