@@ -63,16 +63,36 @@ Password: password123
 ```
 🧠 Architectural & Design Choices
 Here is a summary of the key technical decisions I made while building this application:
+
 1. Payout & Odds Calculation: Pari-Mutuel System
 I chose a Pari-mutuel (Pool Betting) system, similar to platforms like Polymarket. Instead of the platform acting as a "bookmaker" and taking on financial risk with fixed odds, it simply acts as an escrow agent. When a market is resolved, the funds from the losing pool are distributed proportionally to the winners. This model ensures the platform is always solvent and the odds are dynamically set by the users themselves.
-2. Real-Time Updates: Short Polling
-To fulfill the requirement for real-time updates on the Dashboard and Profile pages, I implemented a short-polling mechanism (setInterval) that silently fetches fresh data from the API every 4 seconds. This approach is lightweight, stateless, and highly reliable, providing a real-time feel without the added complexity of a WebSocket connection, which I felt would be over-engineering for this specific challenge.
-3. Database Safety: Transactions
-All critical financial operations, especially placing a bet (handlePlaceBet) and resolving a market (handleResolveMarket), are wrapped in Drizzle ORM transactions. This guarantees that a user's balance is deducted if and only if the bet is successfully inserted into the database. This ACID-compliant approach prevents race conditions and ensures data integrity.
+
+2. UX/UI design:
+*   **Dark Mode Support:** Full accessibility support with a toggleable Dark Theme for low-light environments.
+*   **Universal Search:** An integrated search bar on the dashboard to quickly find markets by title or keyword.
+*   **"How It Works" (About Page):** A comprehensive onboarding guide to explain Pari-mutuel betting and payouts to new users.
+*   **Advanced Profile Stats:** Real-time calculation of a user's Win Rate and Total Wagered amount, providing deep insights into their betting performance.
+*   **Wallet:** The Wallet is your personal treasury on the platform. Since this is a simulated market, it manages your virtual credits and provides a transparent look at your financial activity, while allowing the **admin** to add balance to his account.
+*   **Gamification & Badges:** Dynamic player ranking system (Whale, Shark) based on account winnings to drive user engagement and competition.
+
+3. Closing date and automatic market resolving
+The closing date serves as the official deadline for all participation, marking the exact moment the market stops accepting new wagers and locks its final pool. At this cutoff point, the system will choose a winning outcome based on current odds, using a random number generator. The market will resolve and instantly trigger the payout distribution process without the need for manual intervention, providing users with a fast and entirely automated trading experience.
+
 4. Reusable API (Bonus Task)
-To complete the bonus task, I followed the hint to reuse existing endpoints. I updated the auth.middleware on the backend to be more flexible. It can now authenticate a request using either a standard JWT Token (from the frontend login) or a persistent API Key (from a user's profile). This keeps the codebase DRY (Don't Repeat Yourself) and ensures that bots and humans are subject to the same validation rules.
-5. Usage of AI Tools
-As encouraged by the prompt, I leveraged AI tools (VS Code Copilot) as a "pair programmer" to accelerate development. My role was that of the architect and product owner—I made the high-level decisions regarding database schema changes (like adding endDate and role), the payout math, and the overall UI/UX flow, while using the AI to rapidly generate boilerplate code, write Drizzle queries, and build out Shadcn UI components.
+To complete the bonus task, I followed the hint to reuse existing endpoints. It can now authenticate a request using either a standard JWT Token (from the frontend login) or a persistent API Key (from a user's profile). This keeps the codebase DRY (Don't Repeat Yourself) and ensures that bots and humans are subject to the same validation rules.
+
+---
+##Challenges faced during development
+
+1. Maintaining Logic Integrity & Preventing Regression
+Maintaining the core logic while scaling the application was a primary technical challenge. I had to implement advanced features without compromising the foundational functionality provided in the initial project structure. By adopting a modular approach, I ensured that new additions, like the Admin resolution controls, remained decoupled from the core betting engine. This allowed for rapid iteration while keeping the application stable and reliable.
+
+2. Designing for Engagement and Accessibility
+Creating an interface that is both visually professional and inherently user-friendly required a careful balance of information density. I prioritized a clean Information Hierarchy, using visual cues like dynamic charts and colors to make complex market data easy to interpret at a glance. Focused heavily on the profile section so the user can easily see all bets and necessary information. Enhancements like the Dark Mode toggle and a fully responsive layout were implemented to ensure the platform remains engaging and accessible to all users.
+
+3. Database Evolution for the "Cash-Out" Mechanism
+Implementing the "Cash-Out" feature presented a significant architectural challenge. This required altering the database schema to accurately track the full lifecycle of a wager. Beyond simply refunding a balance, I had to ensure that retracted bets were properly transitioned within the database to be reflected in the user's History section. This required a careful update to the betting logic to distinguish between active, resolved, and cashed-out states, providing users with a transparent audit trail of their activity while maintaining 100% data integrity.
+
 
 
 Thank you for the opportunity to take on this challenge!
