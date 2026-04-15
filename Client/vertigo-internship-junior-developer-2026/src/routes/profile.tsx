@@ -8,14 +8,55 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { useAuth } from "@/lib/auth-context";
 
 export const Route = createFileRoute('/profile')({
   component: ProfilePage,
 });
 
 const BETS_PER_PAGE = 20;
+
+type ProfileBadge = {
+  label: string;
+  description: string;
+  className: string;
+};
+
+function getTierBadge(winnings: number): ProfileBadge | null {
+  if (winnings > 10000) {
+    return {
+      label: '🐋 Whale',
+      description: 'Over $10,000 in winnings',
+      className: 'bg-yellow-100 text-yellow-900 dark:bg-yellow-900/50 dark:text-yellow-200',
+    };
+  }
+
+  if (winnings > 4000) {
+    return {
+      label: '🦈 Shark',
+      description: 'Over $4,000 in winnings',
+      className: 'bg-sky-100 text-sky-900 dark:bg-sky-950/60 dark:text-sky-200',
+    };
+  }
+
+  return null;
+}
+
+function getPerfectionBadge(winRate: number): ProfileBadge | null {
+  if (winRate > 90) {
+    return {
+      label: '💎 Flawless',
+      description: 'Over 90% win rate',
+      className: 'bg-fuchsia-100 text-fuchsia-900 dark:bg-fuchsia-950/60 dark:text-fuchsia-200',
+    };
+  }
+
+  return null;
+}
+
 function ProfilePage() {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [bets, setBets] = useState<UserBetHistoryItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [cashingOutBetId, setCashingOutBetId] = useState<number | null>(null);
@@ -177,6 +218,11 @@ function ProfilePage() {
   const winRate = resolvedBets.length > 0
     ? ((wonResolvedBets.length / resolvedBets.length) * 100).toFixed(1)
     : '0.0';
+  const numericWinRate = Number(winRate);
+  const totalResolvedWinnings = wonResolvedBets.reduce((sum, bet) => sum + bet.currentPayout, 0);
+  const profileBadges = [getTierBadge(totalResolvedWinnings), getPerfectionBadge(numericWinRate)].filter(
+    (badge): badge is ProfileBadge => badge !== null,
+  );
 
   const activeTotalPages = Math.max(1, Math.ceil(allActiveBets.length / BETS_PER_PAGE));
   const historyTotalPages = Math.max(1, Math.ceil(allHistoryBets.length / BETS_PER_PAGE));
@@ -188,7 +234,27 @@ function ProfilePage() {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 py-8">
       <div className="p-6 max-w-5xl mx-auto space-y-8">
         <div className="flex items-center justify-between gap-4">
-          <h1 className="text-3xl font-bold text-slate-800 dark:text-slate-100">My Profile</h1>
+          <div>
+            <h1 className="text-3xl font-bold text-slate-800 dark:text-slate-100">My Profile</h1>
+            {user?.username && (
+              <div className="mt-2 flex flex-wrap items-center gap-2">
+                <span className="text-lg font-semibold text-slate-700 dark:text-slate-200">{user.username}</span>
+                {profileBadges.map((badge) => (
+                  <span
+                    key={badge.label}
+                    className="group relative inline-flex cursor-default select-none"
+                  >
+                    <span className={`rounded-full px-2 py-1 text-xs font-semibold ${badge.className}`}>
+                      {badge.label}
+                    </span>
+                    <span className="pointer-events-none absolute left-1/2 top-full z-20 mt-2 -translate-x-1/2 whitespace-nowrap rounded-md bg-slate-900/95 px-2.5 py-1.5 text-[11px] italic text-white opacity-0 shadow-lg transition-opacity duration-150 group-hover:opacity-100 dark:bg-slate-800">
+                      {badge.description}
+                    </span>
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
           <div className="flex items-center gap-3">
 
             <Button variant="outline" onClick={() => navigate({ to: "/" })}>

@@ -13,6 +13,13 @@ export const Route = createFileRoute('/leaderboard')({
 type LeaderboardUser = {
   username: string;
   winnings: number;
+  winRate?: number;
+};
+
+type LeaderboardBadge = {
+  label: string;
+  description: string;
+  className: string;
 };
 
 function getUserTier(winnings: number) {
@@ -45,6 +52,32 @@ function getUserTier(winnings: number) {
     badge: null,
     badgeClassName: "",
     nameClassName: "text-slate-800 dark:text-slate-100",
+  };
+}
+
+function getUserBadges(winnings: number, winRate = 0) {
+  const tier = getUserTier(winnings);
+  const badges: LeaderboardBadge[] = [];
+
+  if (tier.badge) {
+    badges.push({
+      label: tier.badge,
+      description: tier.badge.includes('Whale') ? 'Over 10000 in winnings' : 'Over 4000 in winnings',
+      className: tier.badgeClassName,
+    });
+  }
+
+  if (winRate > 90) {
+    badges.push({
+      label: '💎 Flawless',
+      description: 'Over 90% win rate',
+      className: 'bg-fuchsia-100 text-fuchsia-900 dark:bg-fuchsia-950/60 dark:text-fuchsia-200',
+    });
+  }
+
+  return {
+    ...tier,
+    badges,
   };
 }
 
@@ -93,7 +126,7 @@ function LeaderboardPage() {
                 <tr><td colSpan={3} className="p-8 text-center text-slate-400 dark:text-slate-500">Loading rankings...</td></tr>
               ) : (
                 users.map((leaderboardUser, index) => {
-                  const tier = getUserTier(leaderboardUser.winnings);
+                  const tier = getUserBadges(leaderboardUser.winnings, leaderboardUser.winRate ?? 0);
                   const isCurrentUser = leaderboardUser.username === user?.username;
 
                   return (
@@ -107,11 +140,19 @@ function LeaderboardPage() {
                             {leaderboardUser.username}
                             {isCurrentUser ? ' (you)' : ''}
                           </span>
-                          {tier.badge && (
-                            <span className={`rounded-full px-2 py-1 text-xs font-semibold ${tier.badgeClassName}`}>
-                              {tier.badge}
+                          {tier.badges.map((badge) => (
+                            <span
+                              key={`${leaderboardUser.username}-${badge.label}`}
+                              className="group relative inline-flex cursor-default select-none"
+                            >
+                              <span className={`rounded-full px-2 py-1 text-xs font-semibold ${badge.className}`}>
+                                {badge.label}
+                              </span>
+                              <span className="pointer-events-none absolute left-1/2 top-full z-20 mt-2 -translate-x-1/2 whitespace-nowrap rounded-md bg-slate-900/95 px-2.5 py-1.5 text-[11px] italic text-white opacity-0 shadow-lg transition-opacity duration-150 group-hover:opacity-100 dark:bg-slate-800">
+                                {badge.description}
+                              </span>
                             </span>
-                          )}
+                          ))}
                         </div>
                       </td>
                       <td className="p-4 text-right font-mono font-bold text-emerald-600 dark:text-emerald-400">

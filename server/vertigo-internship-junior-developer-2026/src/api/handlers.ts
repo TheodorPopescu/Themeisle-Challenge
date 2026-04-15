@@ -774,12 +774,20 @@ export const handleLeaderboard = async () => {
   ]);
 
   const winningsByUser = new Map<number, number>();
+  const winStatsByUser = new Map<number, { wins: number; totalResolved: number }>();
   const betsByMarket = new Map<number, typeof resolvedBets>();
 
   for (const bet of resolvedBets) {
     if (bet.market.status !== "resolved" || bet.market.resolvedOutcomeId == null || bet.cashedOutAt != null) {
       continue;
     }
+
+    const currentStats = winStatsByUser.get(bet.userId) ?? { wins: 0, totalResolved: 0 };
+    currentStats.totalResolved += 1;
+    if (bet.outcomeId === bet.market.resolvedOutcomeId) {
+      currentStats.wins += 1;
+    }
+    winStatsByUser.set(bet.userId, currentStats);
 
     const marketBets = betsByMarket.get(bet.marketId);
     if (marketBets) {
@@ -810,10 +818,18 @@ export const handleLeaderboard = async () => {
   }
 
   const topUsers = allUsers
-    .map((user) => ({
-      username: user.username,
-      winnings: winningsByUser.get(user.id) ?? 0,
-    }))
+    .map((user) => {
+      const stats = winStatsByUser.get(user.id);
+      const winRate = stats && stats.totalResolved > 0
+        ? Number(((stats.wins / stats.totalResolved) * 100).toFixed(1))
+        : 0;
+
+      return {
+        username: user.username,
+        winnings: winningsByUser.get(user.id) ?? 0,
+        winRate,
+      };
+    })
     .sort((a, b) => b.winnings - a.winnings)
     .slice(0, 20);
 

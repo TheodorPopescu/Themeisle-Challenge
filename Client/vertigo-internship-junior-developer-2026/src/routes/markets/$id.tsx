@@ -333,8 +333,8 @@ function MarketDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 py-8">
-      <div className="max-w-3xl mx-auto px-4 space-y-6">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 pt-8 pb-4">
+      <div className="max-w-3xl mx-auto px-4 space-y-5">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -366,7 +366,7 @@ function MarketDetailPage() {
               </Badge>
             </div>
           </CardHeader>
-          <CardContent className="space-y-6">
+          <CardContent className="space-y-5">
             {error && !insufficientBalanceError && (
               <div className="rounded-md bg-destructive/10 border border-destructive/20 px-4 py-3 text-sm text-destructive">
                 {error}
@@ -414,7 +414,7 @@ function MarketDetailPage() {
               </p>
             </div>
 
-            <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm mb-8">
+            <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
               <h3 className="text-lg font-bold text-slate-800 dark:text-slate-100 mb-4">
                 {Number(betAmount) > 0 && selectedOutcomeId ? "Pool Distribution with Your Bet" : "Current Pool Distribution"}
               </h3>
@@ -533,7 +533,7 @@ function MarketDetailPage() {
             )}
 
             {user?.role === 'ADMIN' && market.status === 'active' && (
-              <div className="mb-8 rounded-xl border-2 border-orange-200 bg-orange-50 p-6 dark:border-orange-900/70 dark:bg-orange-950/40">
+              <div className="rounded-xl border-2 border-orange-200 bg-orange-50 p-6 dark:border-orange-900/70 dark:bg-orange-950/40">
                 <h3 className="mb-4 text-center text-sm font-bold uppercase tracking-wider text-orange-800 dark:text-orange-300">Admin Control Panel</h3>
                 <p className="mb-4 text-center text-sm text-orange-700 dark:text-orange-200/85">Select the winning outcome to close this market and pay out users:</p>
                 <div className="flex flex-wrap gap-2">
